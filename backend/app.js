@@ -33,3 +33,46 @@ app.post(
     bookingController.webhookCheckout
 );
 
+app.use(express.json({limit: '10kb'}));
+app.use(express.urlencoded({extended: true, limit: '10kb' }));
+app.use(cookieParser());
+
+app.use(mongoSanitize());
+
+app.use(mongoSanitize());
+
+app.use(xss());
+
+app.use(
+    hpp({
+        whitelist: [
+            'duration',
+            'ratingsQuantity',
+            'ratingsAverage',
+            'maxGroubSize',
+            'difficulty',
+            'price'
+        ]
+    })
+);
+
+app.use(compression());
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+});
+
+    app.use('/', viewRouter)
+    app.use('/api/v1/tours', tourRouter);
+    app.use('/api/v1/users', usersRouter);
+    app.use('/api/v1/reviews', reviewRouter);
+    app.use('/api/v1/bookings', bookingRouter);
+
+    app.all('*', (req, res, next) =>  {
+         next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+    });
+
+    app.use(globalErrorHandler);
+
+    module.exports = app;
