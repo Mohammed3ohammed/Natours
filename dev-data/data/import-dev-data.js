@@ -25,9 +25,29 @@ mongoose
         try {
             await Tour.create(tours);
             await User.create(users, { validateBeforeSave: false});
-            await Reviews.create(reviews);
+            await Review.create(reviews);
         } catch (err) {
             console.log(err);
         }
         process.exit();
     };
+
+    
+    const deleteData = async () => {
+        try {
+            await Tour.deleteMany();
+            await User.deleteMany();
+            await Review.deleteMany();
+            console.log('Data successfully deleted!');
+        } catch (err) {
+            console.log(err);
+        }
+        process.exit();
+    };
+
+    if (process.argv[2] === '--import') {
+        importData();
+    } else if (process.argv[2] === '--delete') {
+        deleteData();
+    }
+
