@@ -182,12 +182,11 @@
         </div>
     </section>
 
-    <section class="section-map">
+<section class="section-map">
         <div id="map"></div>
         <script>
-            mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
+            mapboxgl.accessToken = 'pk.YOUR_MAPBOX_TOKEN_HERE';
 
-        
              const geojson = {
           type: 'FeatureCollection',
           features: [
@@ -233,7 +232,6 @@
             }
           ]
         };
-
 
             const map = new mapboxgl.Map({
                 container: 'map',
